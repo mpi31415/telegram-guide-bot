@@ -3,3 +3,5 @@ for this bot to run you need to have a working docker installation a zeebe broke
 self hosted. 
 
 The code is by no means perfect, if you have any suggestions feel free to share them.
+
+Additionally I would be really greatful, if you could suggest how to meaningfully restructure the project.
