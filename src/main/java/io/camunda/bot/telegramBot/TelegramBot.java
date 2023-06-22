@@ -1,13 +1,11 @@
 package io.camunda.bot.telegramBot;
 
-import io.camunda.bot.entities.client.ClientChatVariables;
 import io.camunda.bot.entities.tours.Tours;
-import io.camunda.bot.repository.ClientChatVariablesRepository;
 import io.camunda.bot.repository.ToursRepository;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -32,6 +30,9 @@ public class TelegramBot  extends TelegramLongPollingBot {
     @Autowired
     private ToursRepository toursRepository;
 
+    @Autowired
+    private Environment env;
+
 
 
 
@@ -54,12 +55,12 @@ public class TelegramBot  extends TelegramLongPollingBot {
         toursRepository.save(new Tours("Rimini","fun trip!", new Timestamp(startDate.getTime()), new Timestamp(endDate.getTime())));
 
         startDate.setTime(startDate.getTime() +1000L+60*60*24);
-        endDate.setTime(endDate.getTime()+ +1000L+60*60*24);
+        endDate.setTime(endDate.getTime()+1000L+60*60*24);
         toursRepository.save(new Tours("Paris","another fun trip!", new Timestamp(startDate.getTime()), new Timestamp(endDate.getTime())));
 
 
         startDate.setTime(startDate.getTime() +1000L+60*60*24);
-        endDate.setTime(endDate.getTime()+ +1000L+60*60*24);
+        endDate.setTime(endDate.getTime()+ 1000L+60*60*24);
         toursRepository.save(new Tours("Rome","a really fun trip!", new Timestamp(startDate.getTime()), new Timestamp(endDate.getTime())));
 
 
@@ -110,7 +111,7 @@ public class TelegramBot  extends TelegramLongPollingBot {
     }
 
     @Override
-    public String getBotToken(){
-        return "6269323130:AAGPlglAW6URHbxjjcEKTdzpU_ceVir3fm0";
+    public String getBotToken() {
+        return env.getProperty("telegram.bot.token");
     }
 }
