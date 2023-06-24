@@ -64,6 +64,16 @@ public class ServiceWorker {
         LOG.info("Displaying destinations");
     }
 
-
+    @JobWorker(type="display-dest-options")
+    public void displayDestinationOptions(final ActivatedJob job) throws TelegramApiException {
+        client.newCompleteCommand(job.getKey());
+        String selected_destination = job.getVariablesAsMap().get("destination").toString().split("/")[1];
+        SendMessage sm = new SendMessage();
+        String message = String.format("You have selected: %s . Do you want to see more /information, the current /participants, do you want to /signup or select a different /trip ?",selected_destination);
+        sm.setText(message);
+        sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
+        telegramBot.sendMessage(sm);
+        LOG.info("Displaying Options");
+    }
 
 }
