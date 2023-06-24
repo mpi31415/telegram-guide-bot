@@ -413,7 +413,7 @@
       <bpmn:outgoing>Flow_12cnpba</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_1dwn4ua" sourceRef="Gateway_04t9gs0" targetRef="trip-display">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=options="inf"</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=options="information"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1578mml" sourceRef="Gateway_04t9gs0" targetRef="Activity_0bup4lk">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=options="part"</bpmn:conditionExpression>
