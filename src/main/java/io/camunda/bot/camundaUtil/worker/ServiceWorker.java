@@ -76,4 +76,15 @@ public class ServiceWorker {
         LOG.info("Displaying Options");
     }
 
+    @JobWorker(type="trip-inf-disp")
+    public void displayTripInformation(final ActivatedJob job) throws TelegramApiException {
+        String selectedDestination = job.getVariablesAsMap().get("destination").toString().split("/")[1];
+        Tours tour = toursService.getTourByName(selectedDestination);
+        SendMessage sm = new SendMessage();
+        sm.setText(tour.getTourDescription());
+        sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
+        telegramBot.sendMessage(sm);
+        LOG.info("Displaying information for " + selectedDestination);
+    }
+
 }

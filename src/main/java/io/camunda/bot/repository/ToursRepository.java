@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ToursRepository extends JpaRepository<Tours, Long> {
     List<Tours> findAllByOrderByTourStartAsc();
+    Tours findToursByTourName(String tourName);
 }

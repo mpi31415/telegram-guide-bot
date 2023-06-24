@@ -20,4 +20,8 @@ public class ToursService {
         return maps.subList(0,3);
     }
 
+    public Tours getTourByName(String tourName){
+        return toursRepository.findToursByTourName(tourName);
+    }
+
 }
