@@ -64,7 +64,6 @@ public class TelegramBot  extends TelegramLongPollingBot {
         toursRepository.save(new Tours("Rome","a really fun trip!", new Timestamp(startDate.getTime()), new Timestamp(endDate.getTime())));
 
 
-
     }
 
     @Override

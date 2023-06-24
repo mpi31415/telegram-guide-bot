@@ -7,7 +7,6 @@ import io.camunda.bot.repository.ClientChatVariablesRepository;
 import io.camunda.bot.repository.ClientProcessRepository;
 import io.camunda.bot.repository.ClientRepository;
 import io.camunda.bot.repository.ToursRepository;
-import io.camunda.bot.telegramBot.ConnectorService;
 import io.camunda.bot.telegramBot.TelegramBot;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.spring.client.annotation.JobWorker;
@@ -22,7 +21,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -132,22 +130,29 @@ public class UserTaskWorker {
     else if(job.getElementId().equals("user-display-options")){
           Map<String, String> result;
           //"options" is the required param
-          if(message.equals("/information")){
-              result = Map.of("options", "information");
-          }else if(message.equals("/participants")){
-            result = Map.of("options", "participants");
-          }else if(message.equals("/signup")){
-            result = Map.of("options", "signup");
-          }else{
-            zeebeClient.newFailCommand(job.getKey()).retries(10).send().join();
-            return;
-          }
+      switch (message) {
+        case "/information":
+          result = Map.of("options", "information");
+          break;
+        case "/participants":
+          result = Map.of("options", "participants");
+          break;
+        case "/signup":
+          result = Map.of("options", "signup");
+          break;
+        case "/trip":
+          result = Map.of("options", "trip");
+          break;
+        default:
+          zeebeClient.newFailCommand(job.getKey()).retries(10).send().join();
+          return;
+      }
           zeebeClient.newCompleteCommand(job.getKey()).variables(result).send().join();
        System.out.println("message: " + message);
 
     }
 
-    System.out.println("var is: " + jsonObject.get("message") + " current stage is " + job.getElementId());
+
 
 
   }

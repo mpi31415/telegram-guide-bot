@@ -1,8 +1,8 @@
 package io.camunda.bot.camundaUtil.worker;
 
+import io.camunda.bot.entities.client.ClientVariables;
 import io.camunda.bot.entities.tours.Tours;
 import io.camunda.bot.service.ToursService;
-import io.camunda.bot.telegramBot.ConnectorService;
 import io.camunda.bot.telegramBot.TelegramBot;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.spring.client.annotation.JobWorker;
@@ -87,4 +87,44 @@ public class ServiceWorker {
         LOG.info("Displaying information for " + selectedDestination);
     }
 
+    @JobWorker(type = "trip-participants-display")
+    public void displayTripParticipants(final ActivatedJob job) throws TelegramApiException {
+        String selectedDestination = job.getVariablesAsMap().get("destination").toString().split("/")[1];
+        List <ClientVariables> clientVariables = toursService.findClientsByTour(selectedDestination);
+        SendMessage sm = new SendMessage();
+        StringBuilder message = new StringBuilder();
+        message.append("Participating clients are: ");
+        //TODO if zero provide different message
+        for(ClientVariables clientVariables1 : clientVariables){
+            message.append("\n").append(clientVariables1.getClientFirstname());
+            System.out.println(clientVariables1.getClientFirstname());
+        }
+        sm.setText(message.toString());
+        sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
+        telegramBot.sendMessage(sm);
+        client.newCompleteCommand(job.getKey()).send().join();
+        LOG.info("Displaying participants for " + selectedDestination);
+
+
+    }
+
+
+    @JobWorker(type ="trip-signup")
+    public void displayRegistrationPrompt(final  ActivatedJob job) throws TelegramApiException{
+        System.out.println("I am here");
+        SendMessage sm = new SendMessage();
+        sm.setText("You have selected the Sign up option for the "+ job.getVariablesAsMap().get("destination").toString().split("/")[0]+" trip, in the following you will be prompted to provide your personal data - please respond in single messages and don't edit your messages, you will be later given a chance to correct your provided information.");
+        sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
+        telegramBot.sendMessage(sm);
+        LOG.info("singup prompt");
+    }
+
+    @JobWorker(type = "ask-name")
+    public void askName(final  ActivatedJob job) throws TelegramApiException{
+        SendMessage sm = new SendMessage();
+        sm.setText("Please provide your name in the romanized version (as it is written in your passport), e.g. Vasiliy Petrov");
+        sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
+        telegramBot.sendMessage(sm);
+        LOG.info("Name prompt");
+    }
 }
