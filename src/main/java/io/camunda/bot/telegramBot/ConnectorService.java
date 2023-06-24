@@ -9,12 +9,9 @@ import io.camunda.bot.repository.ClientProcessRepository;
 import io.camunda.bot.repository.ClientRepository;
 import jakarta.transaction.Transactional;
 import org.json.JSONObject;
-import org.postgresql.util.PGobject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.sql.SQLException;
 
@@ -45,6 +42,8 @@ public class ConnectorService {
                 ClientProcesses currProc = clientProcessRepository.findClientProcessesByClient(client);
                 controller.stopInstance(currProc.getProcessId());
                 clientProcessRepository.deleteClientProcessesByClient(client);
+                if(clientChatVariablesRepository.existsClientChatVariablesByClient(client))
+                    clientChatVariablesRepository.deleteByClient(client);
             }
         }else{
             clientRepository.save(client);

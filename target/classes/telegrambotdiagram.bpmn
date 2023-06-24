@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.12.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.3.0" camunda:diagramRelationId="dd3bb858-30cd-4f85-8d20-0b75762fbdf6">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.12.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.3.0" camunda:diagramRelationId="dd3bb858-30cd-4f85-8d20-0b75762fbdf6">
   <bpmn:process id="GuideHelper" name="GuideHelper" isExecutable="true">
     <bpmn:extensionElements>
       <zeebe:userTaskForm id="userTaskForm_0pjtr0l">{
@@ -143,80 +143,6 @@
   },
   "type": "default",
   "id": "Form_b8f62e86-ee82-452e-8e99-5f456c2042e5",
-  "executionPlatform": "Camunda Cloud",
-  "executionPlatformVersion": "8.2.0"
-}</zeebe:userTaskForm>
-      <zeebe:userTaskForm id="UserTaskForm_058oslk">{
-  "components": [
-    {
-      "values": [
-        {
-          "label": "Participants",
-          "value": "trip_part"
-        },
-        {
-          "label": "Sign up",
-          "value": "trip_signup"
-        },
-        {
-          "label": "See all tours",
-          "value": "trip_all"
-        }
-      ],
-      "label": "How can I assist you next?",
-      "type": "radio",
-      "layout": {
-        "row": "Row_1hgt5bw",
-        "columns": null
-      },
-      "id": "Field_0v1ol07",
-      "key": "inf_ass"
-    }
-  ],
-  "schemaVersion": 8,
-  "exporter": {
-    "name": "Camunda Web Modeler",
-    "version": "a3c2611"
-  },
-  "type": "default",
-  "id": "Form_9449eb71-9108-4fe8-a4e8-47330ed87de0",
-  "executionPlatform": "Camunda Cloud",
-  "executionPlatformVersion": "8.2.0"
-}</zeebe:userTaskForm>
-      <zeebe:userTaskForm id="UserTaskForm_1r8rtje">{
-  "components": [
-    {
-      "values": [
-        {
-          "label": "Information about the trip",
-          "value": "trip_inf"
-        },
-        {
-          "label": "Sign up",
-          "value": "trip_signup"
-        },
-        {
-          "label": "See all tours",
-          "value": "trip_all"
-        }
-      ],
-      "label": "How can I assist you next?",
-      "type": "radio",
-      "layout": {
-        "row": "Row_1hgt5bw",
-        "columns": null
-      },
-      "id": "Field_0v1ol07",
-      "key": "part_ass"
-    }
-  ],
-  "schemaVersion": 8,
-  "exporter": {
-    "name": "Camunda Web Modeler",
-    "version": "a3c2611"
-  },
-  "type": "default",
-  "id": "Form_9449eb71-9108-4fe8-a4e8-47330ed87de0",
   "executionPlatform": "Camunda Cloud",
   "executionPlatformVersion": "8.2.0"
 }</zeebe:userTaskForm>
@@ -379,8 +305,8 @@
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="Gateway_0ve5rnc">
       <bpmn:incoming>chicken-prepared</bpmn:incoming>
-      <bpmn:outgoing>Flow_0un8nsw</bpmn:outgoing>
       <bpmn:outgoing>Flow_0loi8ga</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0un8nsw</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="chicken-prepared" sourceRef="tour-selection" targetRef="Gateway_0ve5rnc" />
     <bpmn:userTask id="decide-needs" name="User-firstchoice">
@@ -400,9 +326,6 @@
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0loi8ga</bpmn:incoming>
       <bpmn:incoming>Flow_0h18ww5</bpmn:incoming>
-      <bpmn:incoming>Flow_1cd90pu</bpmn:incoming>
-      <bpmn:incoming>Flow_0123gdh</bpmn:incoming>
-      <bpmn:incoming>Flow_0ymlmp8</bpmn:incoming>
       <bpmn:outgoing>chicken-prepared</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:exclusiveGateway id="Gateway_04t9gs0">
@@ -410,12 +333,13 @@
       <bpmn:outgoing>Flow_1dwn4ua</bpmn:outgoing>
       <bpmn:outgoing>Flow_1578mml</bpmn:outgoing>
       <bpmn:outgoing>Flow_1w14tji</bpmn:outgoing>
+      <bpmn:outgoing>Flow_12cnpba</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_1dwn4ua" sourceRef="Gateway_04t9gs0" targetRef="trip-display">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=options="inf"</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=options="information"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1578mml" sourceRef="Gateway_04t9gs0" targetRef="Activity_0bup4lk">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=options="part"</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=options="participants"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1w14tji" sourceRef="Gateway_04t9gs0" targetRef="user-info">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=options="signup"</bpmn:conditionExpression>
@@ -446,16 +370,10 @@
       <bpmn:extensionElements>
         <zeebe:formDefinition formKey="camunda-forms:bpmn:userTaskForm_0crokf1" />
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0un8nsw</bpmn:incoming>
+      <bpmn:incoming>Flow_1bdaeni</bpmn:incoming>
       <bpmn:outgoing>Flow_05kn03w</bpmn:outgoing>
-      <bpmn:outgoing>Flow_0ymlmp8</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:sequenceFlow id="Flow_0un8nsw" sourceRef="Gateway_0ve5rnc" targetRef="user-display-options">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=destination!=null</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_05kn03w" sourceRef="user-display-options" targetRef="Gateway_04t9gs0" />
-    <bpmn:sequenceFlow id="Flow_0123gdh" sourceRef="trip-information" targetRef="tour-selection" />
-    <bpmn:sequenceFlow id="Flow_1cd90pu" sourceRef="Activity_0s81rfg" targetRef="tour-selection" />
     <bpmn:sequenceFlow id="Flow_1bqoq15" sourceRef="Gateway_06a2s0o" targetRef="Activity_05s2u31">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=payment!=null</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -482,38 +400,22 @@
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0eoka64</bpmn:incoming>
       <bpmn:incoming>Flow_0ke8mau</bpmn:incoming>
+      <bpmn:incoming>Flow_12cnpba</bpmn:incoming>
       <bpmn:outgoing>Flow_0h18ww5</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_0ymlmp8" sourceRef="user-display-options" targetRef="tour-selection" />
-    <bpmn:userTask id="trip-information" name="Trip-information">
-      <bpmn:extensionElements>
-        <zeebe:formDefinition formKey="camunda-forms:bpmn:UserTaskForm_058oslk" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1drfsp7</bpmn:incoming>
-      <bpmn:outgoing>Flow_0123gdh</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:serviceTask id="trip-display" name="Trip-information display">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="trip-inf-disp" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1dwn4ua</bpmn:incoming>
-      <bpmn:outgoing>Flow_1drfsp7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0c00my4</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_1drfsp7" sourceRef="trip-display" targetRef="trip-information" />
-    <bpmn:userTask id="Activity_0s81rfg" name="Trip-Participants">
-      <bpmn:extensionElements>
-        <zeebe:formDefinition formKey="camunda-forms:bpmn:UserTaskForm_1r8rtje" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0dgg6tg</bpmn:incoming>
-      <bpmn:outgoing>Flow_1cd90pu</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:sequenceFlow id="Flow_0dgg6tg" sourceRef="Activity_0bup4lk" targetRef="Activity_0s81rfg" />
     <bpmn:serviceTask id="Activity_0bup4lk" name="Trip-Participants">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="trip-participants-display" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1578mml</bpmn:incoming>
-      <bpmn:outgoing>Flow_0dgg6tg</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0qihtzp</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:userTask id="Activity_1ebmlhx" name="Options">
       <bpmn:extensionElements>
@@ -562,11 +464,6 @@
       <bpmn:incoming>Flow_0ieq5me</bpmn:incoming>
       <bpmn:outgoing>Flow_12m7ili</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:userTask id="user-info" name="Trip-signup">
-      <bpmn:incoming>Flow_1w14tji</bpmn:incoming>
-      <bpmn:incoming>Flow_0oja864</bpmn:incoming>
-      <bpmn:outgoing>Flow_0u3ids3</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_07ajsef" sourceRef="Activity_1ebmlhx" targetRef="Gateway_07l3ei9" />
     <bpmn:sequenceFlow id="Flow_0oja864" sourceRef="Gateway_07l3ei9" targetRef="user-info">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=payment_or_more=additional</bpmn:conditionExpression>
@@ -690,6 +587,32 @@
       <bpmn:outgoing>Flow_10m1syz</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_10m1syz" sourceRef="Activity_06pap13" targetRef="Activity_02rxwx2" />
+    <bpmn:sequenceFlow id="Flow_0un8nsw" sourceRef="Gateway_0ve5rnc" targetRef="show_dest_options">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=destination!=null</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1bdaeni" sourceRef="show_dest_options" targetRef="user-display-options" />
+    <bpmn:serviceTask id="show_dest_options" name="Show available Options">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="display-dest-options" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0un8nsw</bpmn:incoming>
+      <bpmn:incoming>Flow_0qihtzp</bpmn:incoming>
+      <bpmn:incoming>Flow_0c00my4</bpmn:incoming>
+      <bpmn:outgoing>Flow_1bdaeni</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_12cnpba" sourceRef="Gateway_04t9gs0" targetRef="destination-display">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=options="trip"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0qihtzp" sourceRef="Activity_0bup4lk" targetRef="show_dest_options" />
+    <bpmn:sequenceFlow id="Flow_0c00my4" sourceRef="trip-display" targetRef="show_dest_options" />
+    <bpmn:serviceTask id="user-info" name="Trip-signup">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="trip-signup" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1w14tji</bpmn:incoming>
+      <bpmn:incoming>Flow_0oja864</bpmn:incoming>
+      <bpmn:outgoing>Flow_0u3ids3</bpmn:outgoing>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="GuideHelper">
@@ -716,9 +639,6 @@
         <dc:Bounds x="730" y="170" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_04t9gs0_di" bpmnElement="Gateway_04t9gs0" isMarkerVisible="true">
-        <dc:Bounds x="1155" y="125" width="50" height="50" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_06a2s0o_di" bpmnElement="Gateway_06a2s0o" isMarkerVisible="true">
         <dc:Bounds x="1685" y="355" width="50" height="50" />
       </bpmndi:BPMNShape>
@@ -726,16 +646,8 @@
         <dc:Bounds x="1520" y="340" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_05s2u31_di" bpmnElement="Activity_05s2u31">
-        <dc:Bounds x="1780" y="340" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1nyyqr1_di" bpmnElement="Event_1nyyqr1">
         <dc:Bounds x="1912" y="362" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_02pdzlx_di" bpmnElement="user-display-options">
-        <dc:Bounds x="970" y="210" width="100" height="80" />
-        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1agqs4b_di" bpmnElement="about-me">
         <dc:Bounds x="660" y="330" width="100" height="80" />
@@ -744,16 +656,8 @@
         <dc:Bounds x="580" y="170" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_0rp4nzk" bpmnElement="trip-information">
-        <dc:Bounds x="1520" y="120" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0010or8_di" bpmnElement="trip-display">
         <dc:Bounds x="1330" y="110" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_0j7jvqn" bpmnElement="Activity_0s81rfg">
-        <dc:Bounds x="1520" y="230" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_135pf64_di" bpmnElement="Activity_0bup4lk">
@@ -779,9 +683,6 @@
       <bpmndi:BPMNShape id="Activity_16kapfp_di" bpmnElement="display-about-destination-choice">
         <dc:Bounds x="250" y="268" width="100" height="80" />
         <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1jbxe6u_di" bpmnElement="user-info">
-        <dc:Bounds x="1330" y="340" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_00yjkbi_di" bpmnElement="Activity_0zoxv63">
         <dc:Bounds x="1150" y="450" width="100" height="80" />
@@ -838,6 +739,23 @@
         <dc:Bounds x="2750" y="660" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02pdzlx_di" bpmnElement="user-display-options">
+        <dc:Bounds x="1060" y="190" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1bxijq7_di" bpmnElement="show_dest_options">
+        <dc:Bounds x="930" y="180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_04t9gs0_di" bpmnElement="Gateway_04t9gs0" isMarkerVisible="true">
+        <dc:Bounds x="1275" y="175" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_05s2u31_di" bpmnElement="Activity_05s2u31">
+        <dc:Bounds x="1780" y="350" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0vzzdxh_di" bpmnElement="user-info">
+        <dc:Bounds x="1330" y="340" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_06ss774_di" bpmnElement="Flow_06ss774">
         <di:waypoint x="500" y="308" />
         <di:waypoint x="555" y="308" />
@@ -855,17 +773,18 @@
         <di:waypoint x="865" y="210" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1dwn4ua_di" bpmnElement="Flow_1dwn4ua">
-        <di:waypoint x="1205" y="150" />
+        <di:waypoint x="1300" y="175" />
+        <di:waypoint x="1300" y="150" />
         <di:waypoint x="1330" y="150" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1578mml_di" bpmnElement="Flow_1578mml">
-        <di:waypoint x="1180" y="175" />
-        <di:waypoint x="1180" y="270" />
+        <di:waypoint x="1300" y="225" />
+        <di:waypoint x="1300" y="270" />
         <di:waypoint x="1330" y="270" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1w14tji_di" bpmnElement="Flow_1w14tji">
-        <di:waypoint x="1180" y="175" />
-        <di:waypoint x="1180" y="380" />
+        <di:waypoint x="1300" y="225" />
+        <di:waypoint x="1300" y="380" />
         <di:waypoint x="1330" y="380" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0ay7q6w_di" bpmnElement="Flow_0ay7q6w">
@@ -873,38 +792,31 @@
         <di:waypoint x="1685" y="380" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1c2gbbq_di" bpmnElement="Flow_1c2gbbq">
-        <di:waypoint x="1880" y="380" />
+        <di:waypoint x="1880" y="390" />
+        <di:waypoint x="1896" y="390" />
+        <di:waypoint x="1896" y="380" />
         <di:waypoint x="1912" y="380" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0un8nsw_di" bpmnElement="Flow_0un8nsw">
         <di:waypoint x="915" y="210" />
-        <di:waypoint x="943" y="210" />
-        <di:waypoint x="943" y="250" />
-        <di:waypoint x="970" y="250" />
+        <di:waypoint x="923" y="210" />
+        <di:waypoint x="923" y="220" />
+        <di:waypoint x="930" y="220" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_05kn03w_di" bpmnElement="Flow_05kn03w">
-        <di:waypoint x="1070" y="250" />
-        <di:waypoint x="1180" y="250" />
-        <di:waypoint x="1180" y="175" />
+        <di:waypoint x="1160" y="230" />
+        <di:waypoint x="1198" y="230" />
+        <di:waypoint x="1198" y="200" />
+        <di:waypoint x="1275" y="200" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="949" y="232" width="54" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0123gdh_di" bpmnElement="Flow_0123gdh">
-        <di:waypoint x="1570" y="120" />
-        <di:waypoint x="1570" y="90" />
-        <di:waypoint x="780" y="90" />
-        <di:waypoint x="780" y="170" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1cd90pu_di" bpmnElement="Flow_1cd90pu" bioc:stroke="#0d4372" color:border-color="#0d4372">
-        <di:waypoint x="1570" y="230" />
-        <di:waypoint x="1200" y="230" />
-        <di:waypoint x="1200" y="180" />
-        <di:waypoint x="830" y="180" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1bqoq15_di" bpmnElement="Flow_1bqoq15">
         <di:waypoint x="1735" y="380" />
-        <di:waypoint x="1780" y="380" />
+        <di:waypoint x="1758" y="380" />
+        <di:waypoint x="1758" y="390" />
+        <di:waypoint x="1780" y="390" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0loi8ga_di" bpmnElement="Flow_0loi8ga">
         <di:waypoint x="890" y="185" />
@@ -927,18 +839,6 @@
       <bpmndi:BPMNEdge id="Flow_0h18ww5_di" bpmnElement="Flow_0h18ww5">
         <di:waypoint x="680" y="210" />
         <di:waypoint x="730" y="210" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0ymlmp8_di" bpmnElement="Flow_0ymlmp8">
-        <di:waypoint x="970" y="250" />
-        <di:waypoint x="820" y="250" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1drfsp7_di" bpmnElement="Flow_1drfsp7">
-        <di:waypoint x="1430" y="150" />
-        <di:waypoint x="1520" y="150" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0dgg6tg_di" bpmnElement="Flow_0dgg6tg">
-        <di:waypoint x="1430" y="270" />
-        <di:waypoint x="1520" y="270" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1yuzrdl_di" bpmnElement="Flow_1yuzrdl">
         <di:waypoint x="1570" y="465" />
@@ -976,12 +876,13 @@
         <di:waypoint x="1545" y="490" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0oja864_di" bpmnElement="Flow_0oja864">
-        <di:waypoint x="1553" y="482" />
-        <di:waypoint x="1429" y="415" />
+        <di:waypoint x="1570" y="465" />
+        <di:waypoint x="1570" y="389" />
+        <di:waypoint x="1430" y="389" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0u3ids3_di" bpmnElement="Flow_0u3ids3">
-        <di:waypoint x="1330" y="380" />
-        <di:waypoint x="1290" y="380" />
+        <di:waypoint x="1330" y="410" />
+        <di:waypoint x="1290" y="410" />
         <di:waypoint x="1290" y="470" />
         <di:waypoint x="1250" y="470" />
       </bpmndi:BPMNEdge>
@@ -1060,6 +961,27 @@
         <di:waypoint x="2750" y="700" />
         <di:waypoint x="2550" y="700" />
         <di:waypoint x="2550" y="630" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bdaeni_di" bpmnElement="Flow_1bdaeni">
+        <di:waypoint x="1030" y="220" />
+        <di:waypoint x="1045" y="220" />
+        <di:waypoint x="1045" y="230" />
+        <di:waypoint x="1060" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12cnpba_di" bpmnElement="Flow_12cnpba">
+        <di:waypoint x="1278" y="197" />
+        <di:waypoint x="810" y="140" />
+        <di:waypoint x="630" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qihtzp_di" bpmnElement="Flow_0qihtzp">
+        <di:waypoint x="1330" y="290" />
+        <di:waypoint x="1020" y="290" />
+        <di:waypoint x="1020" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0c00my4_di" bpmnElement="Flow_0c00my4">
+        <di:waypoint x="1330" y="140" />
+        <di:waypoint x="980" y="140" />
+        <di:waypoint x="980" y="180" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

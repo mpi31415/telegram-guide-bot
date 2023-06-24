@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface ClientChatVariablesRepository extends JpaRepository<ClientChatVariables, Long> {
     boolean existsClientChatVariablesByClient(Client client);
     ClientChatVariables findClientChatVariablesByClient(Client client);
+
+    void deleteByClient(Client client);
 }
