@@ -93,13 +93,21 @@ public class ServiceWorker {
         List <ClientVariables> clientVariables = toursService.findClientsByTour(selectedDestination);
         SendMessage sm = new SendMessage();
         StringBuilder message = new StringBuilder();
-        message.append("Participating clients are: ");
-        //TODO if zero provide different message
-        for(ClientVariables clientVariables1 : clientVariables){
-            message.append("\n").append(clientVariables1.getClientFirstname());
-            System.out.println(clientVariables1.getClientFirstname());
+
+        if(clientVariables.size()==0){
+            sm.setText("There are currently no participants, be the first to sign up!");
+            return;
         }
-        sm.setText(message.toString());
+        else{
+            message.append("Participating clients are: ");
+            //TODO if zero provide different message
+            for(ClientVariables clientVariables1 : clientVariables){
+                message.append("\n").append(clientVariables1.getClientFirstname());
+                System.out.println(clientVariables1.getClientFirstname());
+            }
+            sm.setText(message.toString());
+        }
+
         sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
         telegramBot.sendMessage(sm);
         client.newCompleteCommand(job.getKey()).send().join();
