@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ClientVariablesRepository extends JpaRepository<ClientVariables, Long> {
+    ClientVariables findClientVariablesByEntryId(Long id);
 }

@@ -7,6 +7,7 @@ import io.camunda.bot.entities.client.ClientVariablesRelation;
 import io.camunda.bot.entities.tours.Tours;
 import io.camunda.bot.repository.*;
 import io.camunda.bot.telegramBot.TelegramBot;
+import io.camunda.bot.utility.Util;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.spring.client.annotation.JobWorker;
 import io.camunda.zeebe.spring.client.lifecycle.ZeebeClientLifecycle;
@@ -173,6 +174,19 @@ public class UserTaskWorker {
           //invalid input
           zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("name_valid","false")).send().join();
         }
+
+    }
+    else if(job.getElementId().equals("birthday-input")){
+      //message is supposed to be a date in the YYYY-MM-DD format
+      if(!Util.validateDate(message, "YYYY-MM-DD")){
+        System.out.println("message");
+        zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_bdate", "false")).send().join();
+        return;
+      }
+      ClientVariables clientVariables = clientVariablesRelationRepository.findClientVariablesRelationByClient(clientRepository.findClientByChatId(job.getVariablesAsMap().get("chat_id").toString())).getClientVariables();
+      System.out.println("date:" + message );
+      clientVariables.setClientBirthday(Util.stringToDate(message, "YYYY-MM-DD"));
+      zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_bdate","true")).send().join();
 
     }
 
