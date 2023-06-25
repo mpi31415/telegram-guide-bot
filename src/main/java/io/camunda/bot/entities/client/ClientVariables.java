@@ -26,5 +26,10 @@ public class ClientVariables {
     private String clientNationality;
 
 
+    public ClientVariables(String clientFirstname, String clientLastname){
+        this.clientFirstname = clientFirstname;
+        this.clientLastname = clientLastname;
+    }
+
 
 }

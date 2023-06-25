@@ -2,11 +2,10 @@ package io.camunda.bot.camundaUtil.worker;
 
 import io.camunda.bot.entities.client.Client;
 import io.camunda.bot.entities.client.ClientChatVariables;
+import io.camunda.bot.entities.client.ClientVariables;
+import io.camunda.bot.entities.client.ClientVariablesRelation;
 import io.camunda.bot.entities.tours.Tours;
-import io.camunda.bot.repository.ClientChatVariablesRepository;
-import io.camunda.bot.repository.ClientProcessRepository;
-import io.camunda.bot.repository.ClientRepository;
-import io.camunda.bot.repository.ToursRepository;
+import io.camunda.bot.repository.*;
 import io.camunda.bot.telegramBot.TelegramBot;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.spring.client.annotation.JobWorker;
@@ -21,8 +20,10 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -41,12 +42,14 @@ public class UserTaskWorker {
 
   @Autowired
   private ClientProcessRepository clientProcessRepository;
-
-
+  @Autowired
+  private ClientVariablesRepository clientVariablesRepository;
   @Autowired
   private TelegramBot telegramBot;
   @Autowired
   private ToursRepository toursRepository;
+  @Autowired
+  private ClientVariablesRelationRepository clientVariablesRelationRepository;
 
 
   @JobWorker(type = "io.camunda.zeebe:userTask", autoComplete = false, pollInterval = 1000)
@@ -149,6 +152,27 @@ public class UserTaskWorker {
       }
           zeebeClient.newCompleteCommand(job.getKey()).variables(result).send().join();
        System.out.println("message: " + message);
+
+    }
+    else if(job.getElementId().equals("name-input")){
+      System.out.println("Name input prompt");
+      String regex = "^[A-Za-z ]+$";
+        if(message.matches(regex) && message.split(" ").length >=2){
+          System.out.println("valid regex");
+            String[] nameArray = message.split(" ");
+            String firstName = Arrays.stream(nameArray)
+                    .limit(nameArray.length - 1)
+                    .collect(Collectors.joining(" "));
+            String lastName = nameArray[nameArray.length-1];
+            ClientVariables clientVariables = new ClientVariables(firstName,lastName);
+            ClientVariables savedClientVariables = clientVariablesRepository.save(clientVariables);
+            clientVariablesRelationRepository.save(new ClientVariablesRelation(client, savedClientVariables));
+            zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("name_valid","true")).send().join();
+        }else{
+          System.out.println("I am invalid: " + message.matches(regex));
+          //invalid input
+          zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("name_valid","false")).send().join();
+        }
 
     }
 

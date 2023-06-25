@@ -96,7 +96,7 @@ public class ServiceWorker {
 
         if(clientVariables.size()==0){
             sm.setText("There are currently no participants, be the first to sign up!");
-            return;
+
         }
         else{
             message.append("Participating clients are: ");
@@ -134,5 +134,13 @@ public class ServiceWorker {
         sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
         telegramBot.sendMessage(sm);
         LOG.info("Name prompt");
+    }
+
+    @JobWorker(type="wrong-name-input")
+    public void wrongNameInput(final ActivatedJob job)throws TelegramApiException{
+            SendMessage sendMessage = new SendMessage();
+            sendMessage.setText("The provided Name is either not romainzed(e.g. contains non-latin letters or number) or is a single word");
+            sendMessage.setChatId(job.getVariablesAsMap().get("chat_id").toString());
+            telegramBot.sendMessage(sendMessage);
     }
 }
