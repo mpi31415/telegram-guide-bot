@@ -93,13 +93,21 @@ public class ServiceWorker {
         List <ClientVariables> clientVariables = toursService.findClientsByTour(selectedDestination);
         SendMessage sm = new SendMessage();
         StringBuilder message = new StringBuilder();
-        message.append("Participating clients are: ");
-        //TODO if zero provide different message
-        for(ClientVariables clientVariables1 : clientVariables){
-            message.append("\n").append(clientVariables1.getClientFirstname());
-            System.out.println(clientVariables1.getClientFirstname());
+
+        if(clientVariables.size()==0){
+            sm.setText("There are currently no participants, be the first to sign up!");
+
         }
-        sm.setText(message.toString());
+        else{
+            message.append("Participating clients are: ");
+            //TODO if zero provide different message
+            for(ClientVariables clientVariables1 : clientVariables){
+                message.append("\n").append(clientVariables1.getClientFirstname());
+                System.out.println(clientVariables1.getClientFirstname());
+            }
+            sm.setText(message.toString());
+        }
+
         sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
         telegramBot.sendMessage(sm);
         client.newCompleteCommand(job.getKey()).send().join();
@@ -126,5 +134,13 @@ public class ServiceWorker {
         sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
         telegramBot.sendMessage(sm);
         LOG.info("Name prompt");
+    }
+
+    @JobWorker(type="wrong-name-input")
+    public void wrongNameInput(final ActivatedJob job)throws TelegramApiException{
+            SendMessage sendMessage = new SendMessage();
+            sendMessage.setText("The provided Name is either not romainzed(e.g. contains non-latin letters or number) or is a single word");
+            sendMessage.setChatId(job.getVariablesAsMap().get("chat_id").toString());
+            telegramBot.sendMessage(sendMessage);
     }
 }
