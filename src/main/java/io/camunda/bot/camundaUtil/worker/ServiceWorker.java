@@ -172,6 +172,15 @@ public class ServiceWorker {
         LOG.info("Nationality asked");
     }
 
+    @JobWorker(type="invalid-nationality")
+    public void invalidNationality(final ActivatedJob job) throws  TelegramApiException{
+        SendMessage sm = new SendMessage();
+        sm.setText("Your nationality must only contain latin letters, please provide your romanized nationality");
+        sm.setChatId(job.getKey());
+        telegramBot.sendMessage(sm);
+        LOG.info("Invalid nationality");
+    }
+
     @JobWorker(type = "ask-passport")
     public  void askPassport(final ActivatedJob job) throws TelegramApiException{
         SendMessage sm = new SendMessage();
