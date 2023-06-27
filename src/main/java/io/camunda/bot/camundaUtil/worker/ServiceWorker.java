@@ -142,5 +142,24 @@ public class ServiceWorker {
             sendMessage.setText("The provided Name is either not romainzed(e.g. contains non-latin letters or number) or is a single word");
             sendMessage.setChatId(job.getVariablesAsMap().get("chat_id").toString());
             telegramBot.sendMessage(sendMessage);
+
+    }
+
+    @JobWorker(type = "ask-birthday")
+    public void askBirthday(final ActivatedJob job) throws TelegramApiException{
+        SendMessage sm = new SendMessage();
+        sm.setText("Please provide your birthday date in the form YYYY-MM-DD e.g. 2000-12-30");
+        sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
+        telegramBot.sendMessage(sm);
+        LOG.info("Birthday prompt");
+    }
+
+    @JobWorker(type = "invalid-birthdate")
+    public void invalidBirthday(final ActivatedJob job) throws TelegramApiException{
+        SendMessage sm = new SendMessage();
+        sm.setText("Unfortunately the date you provided is invalid. Please provide your birthday date in the form YYYY-MM-DD e.g. 2000-12-30");
+        sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
+        telegramBot.sendMessage(sm);
+        LOG.info("Birthday prompt");
     }
 }
