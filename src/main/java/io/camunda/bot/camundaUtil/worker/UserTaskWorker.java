@@ -177,8 +177,8 @@ public class UserTaskWorker {
 
     }
     else if(job.getElementId().equals("birthday-input")){
-      //message is supposed to be a date in the YYYY-MM-DD format
-      if(!Util.validateDate(message, "YYYY-MM-DD")){
+      //message is supposed to be a date in the yyyy-MM-dd format
+      if(!Util.validateDate(message, "yyyy-MM-dd")){
         System.out.println("message");
         zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_bdate", "false")).send().join();
         return;
