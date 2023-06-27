@@ -126,11 +126,11 @@ public class UserTaskWorker {
           if(("/"+tour.getTourName()).equals(message)){
             result = Map.of("destination", message);
             System.out.println("We have a result: " + message);
-            zeebeClient.newCompleteCommand(job.getKey()).variables(result).send().join();
+            zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_destination","true","destination",message)).send().join();
             return;
           }
         }
-        zeebeClient.newFailCommand(job.getKey()).retries(10).send().join();
+        zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_destination","false")).send().join();
         break;
       case "user-display-options":
         //"options" is the required param
