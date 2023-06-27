@@ -70,126 +70,136 @@ public class UserTaskWorker {
 
     clientChatVariablesRepository.delete(clientChatVariables);
 
-    if(job.getElementId().equals("decide-needs")){
-      switch (message){
-        case "/tours":
-          zeebeClient.newCompleteCommand(job.getKey())
-                  .variables(Map.of("needs", "tours"))
-                  .send().join();
-          System.out.println(job.getElementId() +  " " + job.getProcessDefinitionKey());
+    Map <String,String> result;
+    switch (job.getElementId()){
+      case "decide-needs":
+        switch (message){
+          case "/tours":
+            zeebeClient.newCompleteCommand(job.getKey())
+                    .variables(Map.of("needs", "tours"))
+                    .send().join();
+            System.out.println(job.getElementId() +  " " + job.getProcessDefinitionKey());
 
-          break;
-        case "/about":
-          zeebeClient.newCompleteCommand(job.getKey())
-                  .variables(Map.of("needs", "about"))
-                  .send().join();
-          System.out.println("I completed this job");
+            break;
+          case "/about":
+            zeebeClient.newCompleteCommand(job.getKey())
+                    .variables(Map.of("needs", "about"))
+                    .send().join();
+            System.out.println("I completed this job");
 
-          break;
-        default:
-          SendMessage sm = new SendMessage();
-          sm.setChatId(client.getChatId());
-          sm.setText("Your input: " + jsonObject.get("message") + "is wrong, please try again");
-          telegramBot.sendMessage(sm);
+            break;
+          default:
+            SendMessage sm = new SendMessage();
+            sm.setChatId(client.getChatId());
+            sm.setText("Your input: " + jsonObject.get("message") + "is wrong, please try again");
+            telegramBot.sendMessage(sm);
 
-          System.out.println("Your input is wrong");
-          zeebeClient.newFailCommand(job.getKey()).retries(10).send().join();
+            System.out.println("Your input is wrong");
+            zeebeClient.newFailCommand(job.getKey()).retries(10).send().join();
 
-      }
-    }
-    else if(job.getElementId().equals("continue-or-end")){
-      switch (message){
-        case "/end":
-          Map<String, String> map =  Map.of("dest_or_end", "end");
-          zeebeClient.newCompleteCommand(job.getKey()).variables(map).send().join();
-          System.out.println("end");
-          SendMessage sm = new SendMessage();
-          sm.setChatId(client.getChatId());
-          sm.setText("Thank you for using our bot");
-          telegramBot.sendMessage(sm);
-          endProcess(client.getChatId());
-          break;
-        case "/tours":
-          Map<String, String> destination =  Map.of("dest_or_end", "dest");
-          zeebeClient.newCompleteCommand(job.getKey()).variables(destination).send().join();
-
-          break;
-        default:
-          zeebeClient.newFailCommand(job.getKey()).retries(10).send().join();
-      }
-    }
-    else if(job.getElementId().equals("tour-selection")){
-      Map <String,String> result;
-      List<Tours> toursList = toursRepository.findAllByOrderByTourStartAsc();
-      for(Tours tour : toursList){
-        if(("/"+tour.getTourName()).equals(message)){
-          result = Map.of("destination", message);
-          System.out.println("We have a result: " + message);
-          zeebeClient.newCompleteCommand(job.getKey()).variables(result).send().join();
-          return;
         }
-      }
-      zeebeClient.newFailCommand(job.getKey()).retries(10).send().join();
-    }
-    else if(job.getElementId().equals("user-display-options")){
-          Map<String, String> result;
-          //"options" is the required param
-      switch (message) {
-        case "/information":
-          result = Map.of("options", "information");
-          break;
-        case "/participants":
-          result = Map.of("options", "participants");
-          break;
-        case "/signup":
-          result = Map.of("options", "signup");
-          break;
-        case "/trip":
-          result = Map.of("options", "trip");
-          break;
-        default:
-          zeebeClient.newFailCommand(job.getKey()).retries(10).send().join();
-          return;
-      }
-          zeebeClient.newCompleteCommand(job.getKey()).variables(result).send().join();
-       System.out.println("message: " + message);
+        break;
+      case "continue-or-end":
+        switch (message){
+          case "/end":
+            Map<String, String> map =  Map.of("dest_or_end", "end");
+            zeebeClient.newCompleteCommand(job.getKey()).variables(map).send().join();
+            System.out.println("end");
+            SendMessage sm = new SendMessage();
+            sm.setChatId(client.getChatId());
+            sm.setText("Thank you for using our bot");
+            telegramBot.sendMessage(sm);
+            endProcess(client.getChatId());
+            break;
+          case "/tours":
+            Map<String, String> destination =  Map.of("dest_or_end", "dest");
+            zeebeClient.newCompleteCommand(job.getKey()).variables(destination).send().join();
 
-    }
-    else if(job.getElementId().equals("name-input")){
-      System.out.println("Name input prompt");
-      String regex = "^[A-Za-z ]+$";
+            break;
+          default:
+            zeebeClient.newFailCommand(job.getKey()).retries(10).send().join();
+        }
+        break;
+      case "tour-selection":
+        List<Tours> toursList = toursRepository.findAllByOrderByTourStartAsc();
+        for(Tours tour : toursList){
+          if(("/"+tour.getTourName()).equals(message)){
+            result = Map.of("destination", message);
+            System.out.println("We have a result: " + message);
+            zeebeClient.newCompleteCommand(job.getKey()).variables(result).send().join();
+            return;
+          }
+        }
+        zeebeClient.newFailCommand(job.getKey()).retries(10).send().join();
+        break;
+      case "user-display-options":
+        //"options" is the required param
+        switch (message) {
+          case "/information":
+            result = Map.of("options", "information");
+            break;
+          case "/participants":
+            result = Map.of("options", "participants");
+            break;
+          case "/signup":
+            result = Map.of("options", "signup");
+            break;
+          case "/trip":
+            result = Map.of("options", "trip");
+            break;
+          default:
+            zeebeClient.newFailCommand(job.getKey()).retries(10).send().join();
+            return;
+        }
+        zeebeClient.newCompleteCommand(job.getKey()).variables(result).send().join();
+        System.out.println("message: " + message);
+        break;
+      case "name-input":
+        System.out.println("Name input prompt");
+        String regex = "^[A-Za-z ]+$";
         if(message.matches(regex) && message.split(" ").length >=2){
           System.out.println("valid regex");
-            String[] nameArray = message.split(" ");
-            String firstName = Arrays.stream(nameArray)
-                    .limit(nameArray.length - 1)
-                    .collect(Collectors.joining(" "));
-            String lastName = nameArray[nameArray.length-1];
-            ClientVariables clientVariables = new ClientVariables(firstName,lastName);
-            ClientVariables savedClientVariables = clientVariablesRepository.save(clientVariables);
-            clientVariablesRelationRepository.save(new ClientVariablesRelation(client, savedClientVariables));
-            zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("name_valid","true")).send().join();
+          String[] nameArray = message.split(" ");
+          String firstName = Arrays.stream(nameArray)
+                  .limit(nameArray.length - 1)
+                  .collect(Collectors.joining(" "));
+          String lastName = nameArray[nameArray.length-1];
+          ClientVariables clientVariables = new ClientVariables(firstName,lastName);
+          ClientVariables savedClientVariables = clientVariablesRepository.save(clientVariables);
+          clientVariablesRelationRepository.save(new ClientVariablesRelation(client, savedClientVariables));
+          zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("name_valid","true")).send().join();
         }else{
           System.out.println("I am invalid: " + message.matches(regex));
           //invalid input
           zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("name_valid","false")).send().join();
         }
-
-    }
-    else if(job.getElementId().equals("birthday-input")){
-      //message is supposed to be a date in the yyyy-MM-dd format
-      if(!Util.validateDate(message, "yyyy-MM-dd")){
-        System.out.println("message");
-        zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_bdate", "false")).send().join();
-        return;
+        break;
+      case "birthday-input":{
+        //message is supposed to be a date in the yyyy-MM-dd format
+        if(!Util.validateDate(message, "yyyy-MM-dd")){
+          System.out.println("message");
+          zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_bdate", "false")).send().join();
+          return;
+        }
+        ClientVariables clientVariables = clientVariablesRelationRepository.findClientVariablesRelationByClient(clientRepository.findClientByChatId(job.getVariablesAsMap().get("chat_id").toString())).getClientVariables();
+        System.out.println("date:" + message );
+        clientVariables.setClientBirthday(Util.stringToDate(message, "YYYY-MM-DD"));
+        zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_bdate","true")).send().join();
+        break;
       }
-      ClientVariables clientVariables = clientVariablesRelationRepository.findClientVariablesRelationByClient(clientRepository.findClientByChatId(job.getVariablesAsMap().get("chat_id").toString())).getClientVariables();
-      System.out.println("date:" + message );
-      clientVariables.setClientBirthday(Util.stringToDate(message, "YYYY-MM-DD"));
-      zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_bdate","true")).send().join();
+
+
+      case "nationality-input":
+        if(message.matches("^[A-Za-z ]+$")){
+          ClientVariables clientVariables = clientVariablesRelationRepository.findClientVariablesRelationByClient(clientRepository.findClientByChatId(job.getVariablesAsMap().get("chat_id").toString())).getClientVariables();
+          clientVariables.setClientNationality(message);
+          zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_nat","true")).send().join();
+        }else {
+          zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_nat","false")).send().join();
+        }
+        break;
 
     }
-
 
 
 
