@@ -176,7 +176,7 @@ public class ServiceWorker {
     public void invalidNationality(final ActivatedJob job) throws  TelegramApiException{
         SendMessage sm = new SendMessage();
         sm.setText("Your nationality must only contain latin letters, please provide your romanized nationality");
-        sm.setChatId(job.getKey());
+        sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
         telegramBot.sendMessage(sm);
         LOG.info("Invalid nationality");
     }
