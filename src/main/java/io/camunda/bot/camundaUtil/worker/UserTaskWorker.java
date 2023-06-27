@@ -174,7 +174,7 @@ public class UserTaskWorker {
           zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("name_valid","false")).send().join();
         }
         break;
-      case "birthday-input":
+      case "birthday-input":{
         //message is supposed to be a date in the yyyy-MM-dd format
         if(!Util.validateDate(message, "yyyy-MM-dd")){
           System.out.println("message");
@@ -185,6 +185,18 @@ public class UserTaskWorker {
         System.out.println("date:" + message );
         clientVariables.setClientBirthday(Util.stringToDate(message, "YYYY-MM-DD"));
         zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_bdate","true")).send().join();
+        break;
+      }
+
+
+      case "nationality-input":
+        if(message.matches("^[A-Za-z ]+$")){
+          ClientVariables clientVariables = clientVariablesRelationRepository.findClientVariablesRelationByClient(clientRepository.findClientByChatId(job.getVariablesAsMap().get("chat_id").toString())).getClientVariables();
+          clientVariables.setClientNationality(message);
+          zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_nat","true")).send().join();
+        }else {
+          zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_nat","false")).send().join();
+        }
         break;
 
     }

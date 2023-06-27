@@ -171,4 +171,13 @@ public class ServiceWorker {
         telegramBot.sendMessage(sm);
         LOG.info("Nationality asked");
     }
+
+    @JobWorker(type = "ask-passport")
+    public  void askPassport(final ActivatedJob job) throws TelegramApiException{
+        SendMessage sm = new SendMessage();
+        sm.setText("Please provide us with your Passport-id, e.g. C01X00T47 - we need it for hotel-bookings and certain Visa-requirements");
+        sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
+        telegramBot.sendMessage(sm);
+        LOG.info("Passport-Id asked");
+    }
 }
