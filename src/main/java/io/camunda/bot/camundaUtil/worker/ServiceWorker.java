@@ -162,4 +162,13 @@ public class ServiceWorker {
         telegramBot.sendMessage(sm);
         LOG.info("Birthday prompt");
     }
+
+    @JobWorker(type="ask-nationality")
+    public void askNationality(final ActivatedJob job) throws TelegramApiException{
+        SendMessage sm = new SendMessage();
+        sm.setText("Please provide us with your Nationality the way it is written in your passport. e.g. Germany or Ukraine");
+        sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
+        telegramBot.sendMessage(sm);
+        LOG.info("Nationality asked");
+    }
 }
