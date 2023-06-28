@@ -189,7 +189,7 @@ public class UserTaskWorker {
       }
 
 
-      case "nationality-input":
+      case "nationality-input":{
         if(message.matches("^[A-Za-z ]+$")){
           ClientVariables clientVariables = clientVariablesRelationRepository.findClientVariablesRelationByClient(clientRepository.findClientByChatId(job.getVariablesAsMap().get("chat_id").toString())).getClientVariables();
           clientVariables.setClientNationality(message);
@@ -198,6 +198,41 @@ public class UserTaskWorker {
           zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_nat","false")).send().join();
         }
         break;
+      } case "passport-input":{
+        ClientVariables clientVariables = clientVariablesRelationRepository.findClientVariablesRelationByClient(clientRepository.findClientByChatId(job.getVariablesAsMap().get("chat_id").toString())).getClientVariables();
+        clientVariables.setClientPassportid(message);
+        zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_passid","true")).send().join();
+        break;
+      }
+      case "address-input":{
+          var split_message = message.split(",");
+          if(split_message.length!=4){
+              zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_address","true")).send().join();
+              return;
+          }
+          var plz = split_message[1].replaceAll("\\s+","");
+          if (!plz.matches("[0-9]+")){
+            zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_address","true")).send().join();
+            return;
+          }
+
+          var city = split_message[2].replaceAll("\\s+","");
+          var country = split_message[3].replaceAll("\\s+","");
+          if(!city.matches("[a-zA-Z]+")){
+            zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_address","true")).send().join();
+            return;
+          }
+          if(!country.matches("[a-zA-Z]+")){
+            zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_address","true")).send().join();
+            return;
+          }
+
+        ClientVariables clientVariables = clientVariablesRelationRepository.findClientVariablesRelationByClient(clientRepository.findClientByChatId(job.getVariablesAsMap().get("chat_id").toString())).getClientVariables();
+        clientVariables.setClientAddress(message);
+        zeebeClient.newCompleteCommand(job.getKey()).variables(Map.of("valid_address","true")).send().join();
+        break;
+      }
+
 
     }
 

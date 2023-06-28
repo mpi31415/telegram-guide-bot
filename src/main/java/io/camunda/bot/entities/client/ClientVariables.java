@@ -32,4 +32,15 @@ public class ClientVariables {
     }
 
 
+    @Override
+    public String toString() {
+        return "ClientVariables{" +
+                ", clientFirstname='" + clientFirstname + '\'' +
+                ", clientLastname='" + clientLastname + '\'' +
+                ", clientBirthday=" + clientBirthday +
+                ", clientPassportid='" + clientPassportid + '\'' +
+                ", clientAddress='" + clientAddress + '\'' +
+                ", clientPhoneNumber='" + clientPhoneNumber + '\'' +
+                ", clientNationality='" + clientNationality + '\'';
+    }
 }

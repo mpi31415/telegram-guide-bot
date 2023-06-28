@@ -2,6 +2,9 @@ package io.camunda.bot.camundaUtil.worker;
 
 import io.camunda.bot.entities.client.ClientVariables;
 import io.camunda.bot.entities.tours.Tours;
+import io.camunda.bot.repository.ClientRepository;
+import io.camunda.bot.repository.ClientVariablesRelationRepository;
+import io.camunda.bot.repository.ClientVariablesRepository;
 import io.camunda.bot.service.ToursService;
 import io.camunda.bot.telegramBot.TelegramBot;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
@@ -26,6 +29,12 @@ public class ServiceWorker {
     private TelegramBot telegramBot;
     @Autowired
     private ToursService toursService;
+
+    @Autowired
+    private ClientVariablesRelationRepository clientVariablesRelationRepository;
+
+    @Autowired
+    private ClientRepository clientRepository;
 
     @JobWorker(type = "display-aboutme")
     public void display_about_me(final ActivatedJob job) throws TelegramApiException {
@@ -181,6 +190,8 @@ public class ServiceWorker {
         LOG.info("Invalid nationality");
     }
 
+
+
     @JobWorker(type = "ask-passport")
     public  void askPassport(final ActivatedJob job) throws TelegramApiException{
         SendMessage sm = new SendMessage();
@@ -188,5 +199,42 @@ public class ServiceWorker {
         sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
         telegramBot.sendMessage(sm);
         LOG.info("Passport-Id asked");
+    }
+
+
+    @JobWorker(type = "invalid-passid")
+    public void invalidPassid(final ActivatedJob job) throws TelegramApiException{
+        SendMessage sm = new SendMessage();
+        sm.setText("Please provide a valid passport-id");
+        sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
+        telegramBot.sendMessage(sm);
+        LOG.info("THIS IS NOT SUPPOSED TO BE CALLED");
+    }
+    @JobWorker(type = "ask-address")
+    public void askAdress(final ActivatedJob job) throws TelegramApiException{
+        SendMessage sm = new SendMessage();
+        sm.setText("You are nearly done, we onl need your address now. Please provide it in the following format: Address, PLZ, City, Country - seperated with commas");
+        sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
+        telegramBot.sendMessage(sm);
+        LOG.info("Address requested");
+    }
+
+    @JobWorker(type="invalid-address")
+    public void invalidAdress(final ActivatedJob job) throws TelegramApiException{
+        SendMessage sm = new SendMessage();
+        sm.setText("Please use the following format: Address, Plz, City, Country - e.g. Marienplatz 1, 80331, München, Deutschland");
+        sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
+        telegramBot.sendMessage(sm);
+        LOG.info("invalid adress");
+    }
+
+    @JobWorker(type="display-data")
+    public void displayData(final  ActivatedJob job) throws TelegramApiException{
+        SendMessage sm = new SendMessage();
+        ClientVariables clientVariables = clientVariablesRelationRepository.findClientVariablesRelationByClient(clientRepository.findClientByChatId(job.getVariablesAsMap().get("chat_id").toString())).getClientVariables();
+
+        sm.setText("Please verify that all of the data is correct: " + clientVariables.toString());
+        sm.setChatId(job.getVariablesAsMap().get("chat_id").toString());
+        telegramBot.sendMessage(sm);
     }
 }
